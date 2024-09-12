@@ -1,0 +1,96 @@
+/* Genel Stiller */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+/* Başlık */
+header {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+header p {
+    font-size: 1.2em;
+}
+
+/* Profil Bölümü */
+.profile {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile img {
+    border-radius: 50%;
+    margin-right: 20px;
+    width: 150px;
+    height: 150px;
+}
+
+.info h2 {
+    margin-top: 0;
+}
+
+/* Beceriler Bölümü */
+.skills {
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.skills ul {
+    list-style: none;
+    padding: 0;
+}
+
+.skills li {
+    background: #eee;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* İletişim Bölümü */
+.contact {
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact a {
+    color: #333;
+    text-decoration: none;
+}
+
+/* Footer */
+footer {
+    background: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    margin-top: 20px;
+}
