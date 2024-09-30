@@ -47,11 +47,11 @@
         </div>
     </div>
     <script>
-        const video = document.getElementById('video');
-        const videoSrc = 'http://162.19.37.133:8080/play/live.php?mac=00:1A:79:B5:17:7F&stream=57794&extension=.m3u8';
+        var video = document.getElementById('video');
+        var videoSrc = 'https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=';
 
         if (Hls.isSupported()) {
-            const hls = new Hls();
+            var hls = new Hls();
             hls.loadSource(videoSrc);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, function () {
