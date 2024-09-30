@@ -8,7 +8,7 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             height: 100vh;
             background-image: url('foto.png'); /* Arka plan resmi */
             background-size: cover;
@@ -19,11 +19,13 @@
         }
         .container {
             display: flex;
+            flex-direction: column; /* Dikey dizilim */
             width: 100%;
             max-width: 800px; /* Maksimum genişlik */
+            margin-top: 20px;
         }
         .menu {
-            width: 200px; /* Menü genişliği */
+            width: 100%; /* Menü genişliği */
             background-color: rgba(0, 0, 0, 0.8); /* Menünün arka plan rengi */
             padding: 10px;
             position: relative; /* İçerik konumlandırması için */
@@ -31,6 +33,7 @@
         .menu h3 {
             text-align: center;
             color: #ffcc00; /* Sarı renk */
+            margin: 0;
         }
         .menu ul {
             list-style-type: none;
@@ -43,15 +46,15 @@
         .menu ul li a {
             color: white;
             text-decoration: none;
+            display: block; /* Tıklanabilir alanı artır */
         }
         .video-container {
             background-color: rgba(255, 255, 255, 0.8); /* Yarı saydam arka plan */
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             overflow: hidden;
-            flex: 1; /* Video alanı genişliği */
+            margin-top: 20px; /* Üstten boşluk */
             position: relative; /* İçerik konumlandırması için */
-            margin-left: 20px; /* Menü ile video arasında boşluk */
         }
         video {
             width: 100%;
@@ -87,8 +90,7 @@
                 <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=')">BeIN Sports 1</a></li>
                 <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2OTQ2NjI0NzU2NTVmZmNiYTZiNDc=')">BeIN Sports 2</a></li>
                 <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM0MTAxNjc1NjBmZDdiMmY0ZjQ2YmI=')">BeIN Sports 3</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==')">Ssports </a></li>
-    
+                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==')">Ssports</a></li>
             </ul>
         </div>
         <div class="video-container">
@@ -119,7 +121,10 @@
         var videoSrc = 'https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=';
 
         // Anlık izleyen sayısını güncelle
-        document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
+        function updateViewersCount() {
+            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
+        }
+        updateViewersCount();
 
         // Yükleniyor mesajını göster
         loading.style.display = 'block';
