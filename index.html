@@ -86,6 +86,10 @@
             padding: 5px 10px;
             border-radius: 5px;
         }
+        .active-viewers {
+            margin-top: 20px;
+            font-size: 16px;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.1.5/hls.min.js"></script>
 </head>
@@ -104,33 +108,48 @@
             <video id="video" controls></video>
             <div class="loading" id="loading">Yükleniyor... Bekle Az</div>
         </div>
+        <div class="viewers-count" id="viewersCount">Anlık İzleyen: 0</div>
+        <div class="active-viewers" id="activeViewers">Aktif İzleyenler: 0</div>
     </div>
     <script>
-        // Anlık izleyici sayısı
-        let viewers = 1; // Başlangıçta 1 kişi
+        let viewers = 0; // Başlangıçta izleyici sayısı
+        let activeViewers = 0; // Aktif izleyici sayısı
 
-        // F12 ve sağ tıklamayı engelle
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
+        // Kullanıcı siteye girdiğinde izleyici sayısını artır
+        function userEntered() {
+            viewers++;
+            activeViewers++;
+            updateViewersCount();
+            updateActiveViewers();
+        }
 
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-                e.preventDefault();
-            }
-        });
+        // Kullanıcı siteyi terk ettiğinde izleyici sayısını azalt
+        function userLeft() {
+            activeViewers = Math.max(0, activeViewers - 1);
+            updateActiveViewers();
+        }
+
+        // İzleyici sayısını güncelle
+        function updateViewersCount() {
+            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
+        }
+
+        // Aktif izleyicileri güncelle
+        function updateActiveViewers() {
+            document.getElementById('activeViewers').innerText = `Aktif İzleyenler: ${activeViewers}`;
+        }
+
+        // Sayfa yüklendiğinde kullanıcı girişi simülasyonu
+        window.onload = userEntered;
+
+        // Sayfa kapanırken kullanıcı çıkışı simülasyonu
+        window.onbeforeunload = userLeft;
 
         var video = document.getElementById('video');
         var loading = document.getElementById('loading');
 
         // Video bağlantısını JavaScript içinde sakla
         var videoSrc = 'https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=';
-
-        // Anlık izleyen sayısını güncelle
-        function updateViewersCount() {
-            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
-        }
-        updateViewersCount();
 
         // Yükleniyor mesajını göster
         loading.style.display = 'block';
