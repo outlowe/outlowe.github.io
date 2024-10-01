@@ -31,7 +31,6 @@
     <table>
         <thead>
             <tr>
-                <th>IP Adresi</th>
                 <th>Giriş Tarihi</th>
                 <th>Toplam Giriş</th>
             </tr>
@@ -42,25 +41,39 @@
     </table>
 
     <script>
-        // Backend'den giriş kayıtlarını almak için bir fonksiyon
-        async function fetchLoginRecords() {
-            const response = await fetch('your_backend_endpoint_here'); // Backend endpoint URL'sini buraya ekleyin
-            const data = await response.json();
-            const recordsContainer = document.getElementById('loginRecords');
+        // Kullanıcı girişini kaydet
+        function logUserEntry() {
+            const date = new Date().toLocaleString();
+            let records = JSON.parse(localStorage.getItem('loginRecords')) || [];
 
-            data.forEach(record => {
+            // Giriş kaydını ekle
+            records.push({ date });
+            localStorage.setItem('loginRecords', JSON.stringify(records));
+            updateTable(records);
+        }
+
+        // Kayıtları tabloya güncelle
+        function updateTable(records) {
+            const recordsContainer = document.getElementById('loginRecords');
+            recordsContainer.innerHTML = '';
+            const totalLogins = records.length;
+
+            records.forEach(record => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${record.ip}</td>
                     <td>${record.date}</td>
-                    <td>${record.loginCount}</td>
+                    <td>${totalLogins}</td>
                 `;
                 recordsContainer.appendChild(row);
             });
         }
 
-        // Sayfa yüklendiğinde giriş kayıtlarını al
-        window.onload = fetchLoginRecords;
+        // Sayfa yüklendiğinde kullanıcıyı kaydet
+        window.onload = function() {
+            logUserEntry();
+            const records = JSON.parse(localStorage.getItem('loginRecords')) || [];
+            updateTable(records);
+        };
     </script>
 </body>
 </html>
