@@ -76,7 +76,7 @@
             font-size: 20px;
             color: #555;
         }
-        .viewers-count, .active-users {
+        .viewers-count {
             position: absolute;
             top: 10px;
             left: 10px;
@@ -85,9 +85,6 @@
             color: white;
             padding: 5px 10px;
             border-radius: 5px;
-        }
-        #username {
-            margin-bottom: 10px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.1.5/hls.min.js"></script>
@@ -107,73 +104,33 @@
             <video id="video" controls></video>
             <div class="loading" id="loading">Yükleniyor... Bekle Az</div>
         </div>
-        <div class="viewers-count" id="viewersCount">Anlık İzleyen: 0</div>
-        <div class="active-users" id="activeUsers">Aktif Kullanıcılar: 0</div>
-        <input type="text" id="username" placeholder="Kullanıcı Adı Girin" />
-        <button onclick="setUsername()">Gönder</button>
     </div>
     <script>
-        let viewers = 0; // Başlangıçta 0 kişi
-        let activeUsersCount = 0; // Aktif kullanıcı sayısı
-        let activeUsernames = []; // Aktif kullanıcı adları
-        let isActive = false;
-        let inactivityTimer;
+        // Anlık izleyici sayısı
+        let viewers = 1; // Başlangıçta 1 kişi
 
-        // Kullanıcı aktif olduğunda çağrılan fonksiyon
-        function resetTimer() {
-            isActive = true; // Kullanıcı aktif
-            clearTimeout(inactivityTimer); // Önceki zamanlayıcıyı temizle
+        // F12 ve sağ tıklamayı engelle
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
 
-            // 5 saniye sonra kullanıcı aktifliğini kontrol et
-            inactivityTimer = setTimeout(() => {
-                isActive = false; // Kullanıcı artık aktif değil
-                activeUsersCount--; // Kullanıcı sayısını azalt
-                updateActiveUsersCount(); // Aktif kullanıcı sayısını güncelle
-            }, 5000); // 5 saniye
-        }
-
-        // Kullanıcı adı belirleme
-        function setUsername() {
-            const usernameInput = document.getElementById('username');
-            const username = usernameInput.value.trim();
-
-            if (username && !activeUsernames.includes(username)) {
-                activeUsernames.push(username); // Kullanıcı adını kaydet
-                activeUsersCount++; // Aktif kullanıcı sayısını artır
-                usernameInput.value = ''; // Girdi alanını temizle
-                updateActiveUsersCount(); // Aktif kullanıcı sayısını güncelle
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
             }
-        }
+        });
 
-        // Anlık izleyen sayısını güncelle
-        function updateViewersCount() {
-            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
-        }
-
-        // Aktif kullanıcı sayısını güncelle
-        function updateActiveUsersCount() {
-            document.getElementById('activeUsers').innerText = `Aktif Kullanıcılar: ${activeUsersCount}`;
-        }
-
-        // Kullanıcı etkileşimlerini dinle
-        window.onload = () => {
-            // İlk kullanıcıyı say
-            viewers++;
-            activeUsersCount++;
-            updateViewersCount();
-            updateActiveUsersCount();
-
-            // Kullanıcının fare hareketi veya klavye girişi olduğunda zamanlayıcıyı sıfırla
-            window.addEventListener('mousemove', resetTimer);
-            window.addEventListener('keypress', resetTimer);
-        };
-
-        // Video kontrol fonksiyonu
         var video = document.getElementById('video');
         var loading = document.getElementById('loading');
 
         // Video bağlantısını JavaScript içinde sakla
         var videoSrc = 'https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=';
+
+        // Anlık izleyen sayısını güncelle
+        function updateViewersCount() {
+            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
+        }
+        updateViewersCount();
 
         // Yükleniyor mesajını göster
         loading.style.display = 'block';
