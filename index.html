@@ -112,21 +112,26 @@
         <div class="active-viewers" id="activeViewers">Aktif İzleyenler: 0</div>
     </div>
     <script>
-        let viewers = 0; // Başlangıçta izleyici sayısı
+        let viewers = 0; // Toplam izleyici sayısı
         let activeViewers = 0; // Aktif izleyici sayısı
+        let isUserActive = false; // Kullanıcının aktifliği
 
         // Kullanıcı siteye girdiğinde izleyici sayısını artır
         function userEntered() {
             viewers++;
             activeViewers++;
+            isUserActive = true; // Kullanıcı aktif
             updateViewersCount();
             updateActiveViewers();
         }
 
         // Kullanıcı siteyi terk ettiğinde izleyici sayısını azalt
         function userLeft() {
-            activeViewers = Math.max(0, activeViewers - 1);
-            updateActiveViewers();
+            if (isUserActive) {
+                activeViewers = Math.max(0, activeViewers - 1);
+                isUserActive = false; // Kullanıcı artık aktif değil
+                updateActiveViewers();
+            }
         }
 
         // İzleyici sayısını güncelle
