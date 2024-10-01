@@ -103,12 +103,11 @@
         <div class="video-container">
             <video id="video" controls></video>
             <div class="loading" id="loading">Yükleniyor... Bekle Az</div>
-            <div class="viewers-count" id="viewersCount">Anlık İzleyen: 0</div> <!-- İzleyici sayısı için -->
         </div>
     </div>
     <script>
         // Anlık izleyici sayısı
-        let viewers = 0; // Başlangıçta 0 kişi
+        let viewers = 1; // Başlangıçta 1 kişi
 
         // F12 ve sağ tıklamayı engelle
         document.addEventListener('contextmenu', function(e) {
@@ -131,6 +130,7 @@
         function updateViewersCount() {
             document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
         }
+        updateViewersCount();
 
         // Yükleniyor mesajını göster
         loading.style.display = 'block';
@@ -155,24 +155,6 @@
                 });
             }
         }
-
-        // Kullanıcı sayfayı açtığında
-        function userEntered() {
-            viewers++;
-            updateViewersCount();
-        }
-
-        // Kullanıcı sayfayı kapattığında
-        function userLeft() {
-            viewers--;
-            if (viewers < 0) viewers = 0; // Negatif olmasın
-            updateViewersCount();
-        }
-
-        // Sayfa açıldığında kullanıcı girişi
-        window.addEventListener('load', userEntered);
-        // Sayfa kapandığında kullanıcı çıkışı
-        window.addEventListener('beforeunload', userLeft);
 
         // İlk video kaynağını yükle
         playMatch(videoSrc);
