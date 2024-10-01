@@ -104,9 +104,45 @@
             <video id="video" controls></video>
             <div class="loading" id="loading">Yükleniyor... Bekle Az</div>
         </div>
-        <div class="viewers-count" id="viewersCount">Aktif Kullanıcı: 0</div> <!-- Aktif kullanıcı sayısı -->
+        <div class="viewers-count" id="viewersCount">Anlık İzleyen: 0</div>
     </div>
     <script>
+        // Anlık izleyici sayısı
+        let viewers = 0; // Başlangıçta 0 kişi
+        let activeUsers = 0; // Aktif kullanıcı sayısı
+        let isActive = false;
+        let inactivityTimer;
+
+        // Kullanıcı aktif olduğunda çağrılan fonksiyon
+        function resetTimer() {
+            isActive = true; // Kullanıcı aktif
+            clearTimeout(inactivityTimer); // Önceki zamanlayıcıyı temizle
+
+            // 5 saniye sonra kullanıcı aktifliğini kontrol et
+            inactivityTimer = setTimeout(() => {
+                isActive = false; // Kullanıcı artık aktif değil
+                activeUsers--; // Kullanıcı sayısını azalt
+                updateViewersCount(); // Aktif kullanıcı sayısını güncelle
+            }, 5000); // 5 saniye
+        }
+
+        // Anlık izleyen sayısını güncelle
+        function updateViewersCount() {
+            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${activeUsers}`;
+        }
+
+        // Kullanıcı etkileşimlerini dinle
+        window.onload = () => {
+            // İlk kullanıcıyı say
+            activeUsers++;
+            updateViewersCount();
+
+            // Kullanıcının fare hareketi veya klavye girişi olduğunda zamanlayıcıyı sıfırla
+            window.addEventListener('mousemove', resetTimer);
+            window.addEventListener('keypress', resetTimer);
+        };
+
+        // Video kontrol fonksiyonu
         var video = document.getElementById('video');
         var loading = document.getElementById('loading');
 
@@ -139,19 +175,6 @@
 
         // İlk video kaynağını yükle
         playMatch(videoSrc);
-
-        // Anlık izleyici sayısını güncelle
-        function updateViewersCount() {
-            fetch('aktif_kullanici.php')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('viewersCount').innerText = `Aktif Kullanıcı: ${data.active_users}`;
-                })
-                .catch(error => console.error('Hata:', error));
-        }
-
-        // Her 5 saniyede bir kullanıcı sayısını güncelle
-        setInterval(updateViewersCount, 5000);
     </script>
 </body>
 </html>
