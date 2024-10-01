@@ -9,34 +9,34 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: auto; /* Kaydırmayı aktif et */
+            overflow: auto;
         }
         body {
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            background-image: url('arka.png'); /* Arka plan resmi */
+            background-image: url('arka.png');
             background-size: cover;
             background-position: center;
             font-family: Arial, sans-serif;
-            color: white; /* Yazı rengi beyaz */
+            color: white;
         }
         .container {
             display: flex;
-            flex-direction: column; /* Dikey dizilim */
+            flex-direction: column;
             width: 100%;
-            max-width: 800px; /* Maksimum genişlik */
+            max-width: 800px;
             margin-top: 20px;
         }
         .menu {
-            width: 100%; /* Menü genişliği */
-            background-color: rgba(0, 0, 0, 0.8); /* Menünün arka plan rengi */
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
             padding: 10px;
-            position: relative; /* İçerik konumlandırması için */
+            position: relative;
         }
         .menu h3 {
             text-align: center;
-            color: #ffcc00; /* Sarı renk */
+            color: #ffcc00;
             margin: 0;
         }
         .menu ul {
@@ -50,21 +50,21 @@
         .menu ul li a {
             color: white;
             text-decoration: none;
-            display: block; /* Tıklanabilir alanı artır */
+            display: block;
         }
         .video-container {
-            background-color: rgba(255, 255, 255, 0.8); /* Yarı saydam arka plan */
+            background-color: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             overflow: hidden;
-            margin-top: 20px; /* Üstten boşluk */
-            position: relative; /* İçerik konumlandırması için */
-            flex: 1; /* Video alanının esnemesi için */
+            margin-top: 20px;
+            position: relative;
+            flex: 1;
         }
         video {
             width: 100%;
-            height: 100%; /* Videonun yüksekliğini %100 yap */
-            object-fit: cover; /* Videoyu kapsaması için */
+            height: 100%;
+            object-fit: cover;
             border-radius: 10px 10px 0 0;
         }
         .loading {
@@ -96,12 +96,12 @@
 <body>
     <div class="container">
         <div class="menu">
-            <h3>KESİNTİSİZ MAÇ İZLEME DENEYİMİ / UNINTERRUPTED MATCH WATCHING EXPERIENCE </h3>
+            <h3>KESİNTİSİZ MAÇ İZLEME DENEYİMİ</h3>
             <ul>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=')">BeIN Sports 1</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2OTQ2NjI0NzU2NTVmZmNiYTZiNDc=')">BeIN Sports 2</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM0MTAxNjc1NjBmZDdiMmY0ZjQ2YmI=')">BeIN Sports 3</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==')">Ssports</a></li>
+                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=', 'bein1')">BeIN Sports 1</a></li>
+                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2OTQ2NjI0NzU2NTVmZmNiYTZiNDc=', 'bein2')">BeIN Sports 2</a></li>
+                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM0MTAxNjc1NjBmZDdiMmY0ZjQ2YmI=', 'bein3')">BeIN Sports 3</a></li>
+                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==', 'ssports')">Ssports</a></li>
             </ul>
         </div>
         <div class="video-container">
@@ -112,56 +112,35 @@
         <div class="active-viewers" id="activeViewers">Aktif İzleyenler: 0</div>
     </div>
     <script>
-        let viewers = 0; // Toplam izleyici sayısı
-        let activeViewers = 0; // Aktif izleyici sayısı
-        let isUserActive = false; // Kullanıcının aktifliği
+        let viewers = {
+            bein1: 0,
+            bein2: 0,
+            bein3: 0,
+            ssports: 0
+        };
 
-        // Kullanıcı siteye girdiğinde izleyici sayısını artır
-        function userEntered() {
-            viewers++;
-            activeViewers++;
-            isUserActive = true; // Kullanıcı aktif
-            updateViewersCount();
+        function updateViewersCount(channel) {
+            viewers[channel]++;
+            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers[channel]}`;
             updateActiveViewers();
         }
 
-        // Kullanıcı siteyi terk ettiğinde izleyici sayısını azalt
-        function userLeft() {
-            if (isUserActive) {
-                activeViewers = Math.max(0, activeViewers - 1);
-                isUserActive = false; // Kullanıcı artık aktif değil
-                updateActiveViewers();
-            }
-        }
-
-        // İzleyici sayısını güncelle
-        function updateViewersCount() {
-            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
-        }
-
-        // Aktif izleyicileri güncelle
         function updateActiveViewers() {
-            document.getElementById('activeViewers').innerText = `Aktif İzleyenler: ${activeViewers}`;
+            const totalActiveViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
+            document.getElementById('activeViewers').innerText = `Aktif İzleyenler: ${totalActiveViewers}`;
         }
-
-        // Sayfa yüklendiğinde kullanıcı girişi simülasyonu
-        window.onload = userEntered;
-
-        // Sayfa kapanırken kullanıcı çıkışı simülasyonu
-        window.onbeforeunload = userLeft;
 
         var video = document.getElementById('video');
         var loading = document.getElementById('loading');
 
-        // Video bağlantısını JavaScript içinde sakla
-        var videoSrc = 'https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=';
-
         // Yükleniyor mesajını göster
         loading.style.display = 'block';
 
-        function playMatch(src) {
+        function playMatch(src, channel) {
             loading.style.display = 'block'; // Yükleniyor mesajını göster
             video.src = src; // Yeni video kaynağını ayarla
+
+            updateViewersCount(channel); // İzleyici sayısını güncelle
 
             if (Hls.isSupported()) {
                 var hls = new Hls();
@@ -179,9 +158,6 @@
                 });
             }
         }
-
-        // İlk video kaynağını yükle
-        playMatch(videoSrc);
     </script>
 </body>
 </html>
