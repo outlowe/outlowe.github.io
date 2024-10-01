@@ -76,7 +76,7 @@
             font-size: 20px;
             color: #555;
         }
-        .viewers-count {
+        .viewers-count, .active-users {
             position: absolute;
             top: 10px;
             left: 10px;
@@ -85,6 +85,9 @@
             color: white;
             padding: 5px 10px;
             border-radius: 5px;
+        }
+        #username {
+            margin-bottom: 10px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.1.5/hls.min.js"></script>
@@ -106,11 +109,13 @@
         </div>
         <div class="viewers-count" id="viewersCount">Anlık İzleyen: 0</div>
         <div class="active-users" id="activeUsers">Aktif Kullanıcılar: 0</div>
+        <input type="text" id="username" placeholder="Kullanıcı Adı Girin" />
+        <button onclick="setUsername()">Gönder</button>
     </div>
     <script>
-        // Anlık izleyici sayısı
         let viewers = 0; // Başlangıçta 0 kişi
         let activeUsersCount = 0; // Aktif kullanıcı sayısı
+        let activeUsernames = []; // Aktif kullanıcı adları
         let isActive = false;
         let inactivityTimer;
 
@@ -125,6 +130,19 @@
                 activeUsersCount--; // Kullanıcı sayısını azalt
                 updateActiveUsersCount(); // Aktif kullanıcı sayısını güncelle
             }, 5000); // 5 saniye
+        }
+
+        // Kullanıcı adı belirleme
+        function setUsername() {
+            const usernameInput = document.getElementById('username');
+            const username = usernameInput.value.trim();
+
+            if (username && !activeUsernames.includes(username)) {
+                activeUsernames.push(username); // Kullanıcı adını kaydet
+                activeUsersCount++; // Aktif kullanıcı sayısını artır
+                usernameInput.value = ''; // Girdi alanını temizle
+                updateActiveUsersCount(); // Aktif kullanıcı sayısını güncelle
+            }
         }
 
         // Anlık izleyen sayısını güncelle
