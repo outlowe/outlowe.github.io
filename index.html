@@ -5,27 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anlık İzleyici Sayısı</title>
     <style>
-        .viewers-count {
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 50px;
+        }
+        .viewers-count, .active-users {
             position: fixed;
             top: 10px;
             left: 10px;
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
-            padding: 5px;
+            padding: 10px;
             border-radius: 5px;
+        }
+        .input-container {
+            margin: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
+    <div class="input-container" id="nameInput">
+        <input type="text" id="username" placeholder="İsminizi girin" required>
+        <button id="joinButton">Katıl</button>
+    </div>
     <div class="viewers-count" id="viewersCount">Anlık İzleyen: 0</div>
+    <div class="active-users" id="activeUsers">Aktif Kullanıcılar: </div>
 
     <script>
-        let viewers = localStorage.getItem('viewers') ? parseInt(localStorage.getItem('viewers')) : 0;
-        viewers++; // Her kullanıcı sayfayı yüklediğinde artır
-        localStorage.setItem('viewers', viewers); // Güncel sayıyı sakla
+        let activeUsers = {};
+        let userId = null;
 
-        // Anlık izleyen sayısını göster
-        document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
+        document.getElementById('joinButton').addEventListener('click', () => {
+            const username = document.getElementById('username').value;
+            if (username) {
+                userId = Date.now(); // Benzersiz bir kullanıcı ID oluştur
+                activeUsers[userId] = { name: username, active: true };
+                document.getElementById('nameInput').style.display = 'none';
+                updateDisplay();
+                startTracking();
+            }
+        });
+
+        function updateDisplay() {
+            const activeUserNames = Object.values(activeUsers)
+                .filter(user => user.active)
+                .map(user => user.name)
+                .join(', ');
+
+            const activeCount = Object.values(activeUsers).filter(user => user.active).length;
+
+            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${activeCount}`;
+            document.getElementById('activeUsers').innerText = `Aktif Kullanıcılar: ${activeUserNames}`;
+        }
+
+        function startTracking() {
+            setInterval(() => {
+                if (userId) {
+                    activeUsers[userId].active = false; // Kullanıcıyı pasif hale getir
+                    updateDisplay();
+                }
+            }, 5000); // Her 5 saniyede bir aktifliği kontrol et
+
+            window.addEventListener('beforeunload', () => {
+                delete activeUsers[userId]; // Sayfa kapandığında kullanıcıyı kaldır
+                updateDisplay();
+            });
+        }
     </script>
 </body>
 </html>
