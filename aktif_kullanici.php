@@ -1,32 +1,33 @@
 <?php
 session_start();
 
-// Aktif kullanıcıları kaydetmek için bir dosya
-$active_users_file = 'active_users.txt';
-$timeout_duration = 60; // 1 dakika (60 saniye) boyunca kullanıcı aktif kabul edilir
+$timeout_duration = 5; // 5 saniye (kullanıcı aktif kabul edilme süresi)
 
-// Kullanıcı IP'sini al
+// Kullanıcının IP adresini al
 $user_ip = $_SERVER['REMOTE_ADDR'];
-
-// Dosyadan aktif kullanıcıları oku
-$active_users = file_exists($active_users_file) ? json_decode(file_get_contents($active_users_file), true) : [];
 
 // Mevcut zamanı al
 $current_time = time();
 
-// Kullanıcının IP'sini ve zamanını aktif kullanıcılar listesine ekle
-$active_users[$user_ip] = $current_time;
-
-// Süresi dolmuş kullanıcıları temizle
-foreach ($active_users as $ip => $last_seen) {
-    if ($last_seen < ($current_time - $timeout_duration)) {
-        unset($active_users[$ip]);
-    }
+// Kullanıcının oturum bilgilerini kontrol et
+if (!isset($_SESSION['last_activity'])) {
+    $_SESSION['last_activity'] = $current_time; // İlk aktivite zamanını kaydet
 }
 
-// Aktif kullanıcı sayısını döndür
-echo json_encode(['active_users' => count($active_users)]);
+// Oturum süresi dolmuşsa, kullanıcıyı pasif kabul et
+if ($current_time - $_SESSION['last_activity'] > $timeout_duration) {
+    $_SESSION['is_active'] = false; // Kullanıcı aktif değil
+} else {
+    $_SESSION['is_active'] = true; // Kullanıcı aktif
+}
 
-// Güncellenmiş aktif kullanıcıları dosyaya yaz
-file_put_contents($active_users_file, json_encode($active_users));
+// Aktif kullanıcı sayısını belirle
+$active_users = isset($_SESSION['is_active']) && $_SESSION['is_active'] ? 1 : 0;
+
+// Oturum zamanını güncelle
+$_SESSION['last_activity'] = $current_time;
+
+// JSON formatında yanıt döndür
+header('Content-Type: application/json');
+echo json_encode(['active_users' => $active_users]);
 ?>
