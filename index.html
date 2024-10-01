@@ -92,7 +92,7 @@
 <body>
     <div class="container">
         <div class="menu">
-            <h3>KESİNTİSİZ MAÇ İZLEME DENEYİMİ / UNINTERRUPTED MATCH WATCHING EXPERIENCE </h3>
+            <h3>KESİNTİSİZ MAÇ İZLEME DENEYİMİ</h3>
             <ul>
                 <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=')">BeIN Sports 1</a></li>
                 <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2OTQ2NjI0NzU2NTVmZmNiYTZiNDc=')">BeIN Sports 2</a></li>
@@ -103,60 +103,52 @@
         <div class="video-container">
             <video id="video" controls></video>
             <div class="loading" id="loading">Yükleniyor... Bekle Az</div>
+            <div class="viewers-count" id="viewersCount">Anlık İzleyen: 0</div>
         </div>
     </div>
     <script>
-        // Anlık izleyici sayısı
-        let viewers = 1; // Başlangıçta 1 kişi
+        let viewers = 0; // Başlangıçta izleyici sayısı 0
 
-        // F12 ve sağ tıklamayı engelle
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
+        // WebSocket ile izleyici sayısını almak için bağlantı kurun
+        const socket = new WebSocket('ws://localhost:3000'); // Sunucu adresinizi güncelleyin
 
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-                e.preventDefault();
-            }
-        });
+        socket.onmessage = function(event) {
+            viewers = parseInt(event.data);
+            updateViewersCount();
+        };
+
+        function updateViewersCount() {
+            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
+        }
 
         var video = document.getElementById('video');
         var loading = document.getElementById('loading');
 
-        // Video bağlantısını JavaScript içinde sakla
         var videoSrc = 'https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=';
 
-        // Anlık izleyen sayısını güncelle
-        function updateViewersCount() {
-            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
-        }
-        updateViewersCount();
-
-        // Yükleniyor mesajını göster
         loading.style.display = 'block';
 
         function playMatch(src) {
-            loading.style.display = 'block'; // Yükleniyor mesajını göster
-            video.src = src; // Yeni video kaynağını ayarla
+            loading.style.display = 'block';
+            video.src = src;
 
             if (Hls.isSupported()) {
                 var hls = new Hls();
                 hls.loadSource(src);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    loading.style.display = 'none'; // Yükleniyor mesajını gizle
+                    loading.style.display = 'none';
                     video.play();
                 });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = src;
                 video.addEventListener('loadedmetadata', function () {
-                    loading.style.display = 'none'; // Yükleniyor mesajını gizle
+                    loading.style.display = 'none';
                     video.play();
                 });
             }
         }
 
-        // İlk video kaynağını yükle
         playMatch(videoSrc);
     </script>
 </body>
