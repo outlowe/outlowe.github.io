@@ -105,11 +105,12 @@
             <div class="loading" id="loading">Yükleniyor... Bekle Az</div>
         </div>
         <div class="viewers-count" id="viewersCount">Anlık İzleyen: 0</div>
+        <div class="active-users" id="activeUsers">Aktif Kullanıcılar: 0</div>
     </div>
     <script>
         // Anlık izleyici sayısı
         let viewers = 0; // Başlangıçta 0 kişi
-        let activeUsers = 0; // Aktif kullanıcı sayısı
+        let activeUsersCount = 0; // Aktif kullanıcı sayısı
         let isActive = false;
         let inactivityTimer;
 
@@ -121,21 +122,28 @@
             // 5 saniye sonra kullanıcı aktifliğini kontrol et
             inactivityTimer = setTimeout(() => {
                 isActive = false; // Kullanıcı artık aktif değil
-                activeUsers--; // Kullanıcı sayısını azalt
-                updateViewersCount(); // Aktif kullanıcı sayısını güncelle
+                activeUsersCount--; // Kullanıcı sayısını azalt
+                updateActiveUsersCount(); // Aktif kullanıcı sayısını güncelle
             }, 5000); // 5 saniye
         }
 
         // Anlık izleyen sayısını güncelle
         function updateViewersCount() {
-            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${activeUsers}`;
+            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
+        }
+
+        // Aktif kullanıcı sayısını güncelle
+        function updateActiveUsersCount() {
+            document.getElementById('activeUsers').innerText = `Aktif Kullanıcılar: ${activeUsersCount}`;
         }
 
         // Kullanıcı etkileşimlerini dinle
         window.onload = () => {
             // İlk kullanıcıyı say
-            activeUsers++;
+            viewers++;
+            activeUsersCount++;
             updateViewersCount();
+            updateActiveUsersCount();
 
             // Kullanıcının fare hareketi veya klavye girişi olduğunda zamanlayıcıyı sıfırla
             window.addEventListener('mousemove', resetTimer);
