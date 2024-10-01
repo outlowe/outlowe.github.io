@@ -41,18 +41,33 @@
     </table>
 
     <script>
-        // Kullanıcı girişini kaydet
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+        }
+
+        function getCookie(name) {
+            return document.cookie.split('; ').reduce((r, v) => {
+                const parts = v.split('=');
+                return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+            }, '');
+        }
+
         function logUserEntry() {
+            const userCookie = getCookie('hasVisited');
             const date = new Date().toLocaleString();
             let records = JSON.parse(localStorage.getItem('loginRecords')) || [];
 
-            // Giriş kaydını ekle
-            records.push({ date });
-            localStorage.setItem('loginRecords', JSON.stringify(records));
+            if (!userCookie) {
+                // Kullanıcı daha önce girmemişse kaydet
+                records.push({ date });
+                localStorage.setItem('loginRecords', JSON.stringify(records));
+                setCookie('hasVisited', 'true', 30); // 30 gün geçerli çerez
+            }
+
             updateTable(records);
         }
 
-        // Kayıtları tabloya güncelle
         function updateTable(records) {
             const recordsContainer = document.getElementById('loginRecords');
             recordsContainer.innerHTML = '';
@@ -68,7 +83,6 @@
             });
         }
 
-        // Sayfa yüklendiğinde kullanıcıyı kaydet
         window.onload = function() {
             logUserEntry();
             const records = JSON.parse(localStorage.getItem('loginRecords')) || [];
