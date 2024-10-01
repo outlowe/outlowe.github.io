@@ -3,67 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canlı İzleyici Sayısı</title>
+    <title>Outlowe</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #282c34;
-            color: white;
-            text-align: center;
-            padding: 50px;
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: auto; /* Kaydırmayı aktif et */
         }
-        .viewers {
-            font-size: 24px;
-            margin: 20px 0;
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background-image: url('arka.png'); /* Arka plan resmi */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: white; /* Yazı rengi beyaz */
+        }
+        .container {
+            display: flex;
+            flex-direction: column; /* Dikey dizilim */
+            width: 100%;
+            max-width: 800px; /* Maksimum genişlik */
+            margin-top: 20px;
+        }
+        .menu {
+            width: 100%; /* Menü genişliği */
+            background-color: rgba(0, 0, 0, 0.8); /* Menünün arka plan rengi */
+            padding: 10px;
+            position: relative; /* İçerik konumlandırması için */
+        }
+        .menu h3 {
+            text-align: center;
+            color: #ffcc00; /* Sarı renk */
+            margin: 0;
+        }
+        .menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .menu ul li {
+            padding: 10px;
+            border-bottom: 1px solid #fff;
+        }
+        .menu ul li a {
+            color: white;
+            text-decoration: none;
+            display: block; /* Tıklanabilir alanı artır */
+        }
+        .video-container {
+            background-color: rgba(255, 255, 255, 0.8); /* Yarı saydam arka plan */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            margin-top: 20px; /* Üstten boşluk */
+            position: relative; /* İçerik konumlandırması için */
+            flex: 1; /* Video alanının esnemesi için */
+        }
+        video {
+            width: 100%;
+            height: 100%; /* Videonun yüksekliğini %100 yap */
+            object-fit: cover; /* Videoyu kapsaması için */
+            border-radius: 10px 10px 0 0;
+        }
+        .loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: #555;
+        }
+        .viewers-count {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 18px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.1.5/hls.min.js"></script>
 </head>
 <body>
-    <h1>Canlı Yayın İzleyici Sayısı</h1>
-    <div class="viewers" id="viewers">Aktif İzleyen: 0</div>
-    <button onclick="startStream()">Yayını Başlat</button>
-    <button onclick="stopStream()">Yayını Durdur</button>
-
+    <div class="container">
+        <div class="menu">
+            <h3>KESİNTİSİZ MAÇ İZLEME DENEYİMİ / UNINTERRUPTED MATCH WATCHING EXPERIENCE </h3>
+            <ul>
+                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=')">BeIN Sports 1</a></li>
+                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2OTQ2NjI0NzU2NTVmZmNiYTZiNDc=')">BeIN Sports 2</a></li>
+                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM0MTAxNjc1NjBmZDdiMmY0ZjQ2YmI=')">BeIN Sports 3</a></li>
+                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==')">Ssports</a></li>
+            </ul>
+        </div>
+        <div class="video-container">
+            <video id="video" controls></video>
+            <div class="loading" id="loading">Yükleniyor... Bekle Az</div>
+            <div class="viewers-count" id="viewersCount">Anlık İzleyen: 0</div> <!-- İzleyici sayısı için -->
+        </div>
+    </div>
     <script>
-        let viewersCount = 0;
+        // Anlık izleyici sayısı
+        let viewers = 0; // Başlangıçta 0 kişi
+
+        // F12 ve sağ tıklamayı engelle
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+
+        var video = document.getElementById('video');
+        var loading = document.getElementById('loading');
+
+        // Video bağlantısını JavaScript içinde sakla
+        var videoSrc = 'https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=';
+
+        // Anlık izleyen sayısını güncelle
+        function updateViewersCount() {
+            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
+        }
+
+        // Yükleniyor mesajını göster
+        loading.style.display = 'block';
+
+        function playMatch(src) {
+            loading.style.display = 'block'; // Yükleniyor mesajını göster
+            video.src = src; // Yeni video kaynağını ayarla
+
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(src);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    loading.style.display = 'none'; // Yükleniyor mesajını gizle
+                    video.play();
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = src;
+                video.addEventListener('loadedmetadata', function () {
+                    loading.style.display = 'none'; // Yükleniyor mesajını gizle
+                    video.play();
+                });
+            }
+        }
 
         // Kullanıcı sayfayı açtığında
         function userEntered() {
-            viewersCount++;
-            updateViewersDisplay();
+            viewers++;
+            updateViewersCount();
         }
 
         // Kullanıcı sayfayı kapattığında
         function userLeft() {
-            viewersCount--;
-            if (viewersCount < 0) viewersCount = 0; // Negatif olmasın
-            updateViewersDisplay();
-        }
-
-        // İzleyici sayısını güncelle
-        function updateViewersDisplay() {
-            document.getElementById('viewers').innerText = `Aktif İzleyen: ${viewersCount}`;
-        }
-
-        // Yayını başlat
-        function startStream() {
-            userEntered();
-            setInterval(() => {
-                // Burada sürekli izleyici sayısını güncelleyebilirsin
-                updateViewersDisplay();
-            }, 1000); // Her saniye güncelle
-        }
-
-        // Yayını durdur
-        function stopStream() {
-            userLeft();
-            clearInterval(); // Durum güncellemeyi durdur
+            viewers--;
+            if (viewers < 0) viewers = 0; // Negatif olmasın
+            updateViewersCount();
         }
 
         // Sayfa açıldığında kullanıcı girişi
         window.addEventListener('load', userEntered);
         // Sayfa kapandığında kullanıcı çıkışı
         window.addEventListener('beforeunload', userLeft);
+
+        // İlk video kaynağını yükle
+        playMatch(videoSrc);
     </script>
 </body>
 </html>
