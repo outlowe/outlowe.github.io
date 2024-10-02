@@ -86,6 +86,20 @@
             padding: 5px 10px;
             border-radius: 5px;
         }
+        .telegram-banner {
+            text-align: center;
+            margin-top: 20px;
+            transition: transform 0.3s; /* Geçiş efekti */
+        }
+        .telegram-banner img {
+            width: 450px; /* Banner genişliği */
+            height: 200px; /* Banner yüksekliği */
+            cursor: pointer; /* Tıklanabilir işareti */
+            transition: transform 0.3s; /* Geçiş efekti */
+        }
+        .telegram-banner:hover img {
+            transform: scale(1.1); /* Mouse ile üzerine gelindiğinde büyüme */
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.1.5/hls.min.js"></script>
 </head>
@@ -96,13 +110,17 @@
             <ul>
                 <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=')">BeIN Sports 1</a></li>
                 <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2OTQ2NjI0NzU2NTVmZmNiYTZiNDc=')">BeIN Sports 2</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM0MTAxNjc1NjBmZDdiMmY0ZjQ2YmI=')">BeIN Sports 3</a></li>
                 <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==')">Ssports</a></li>
             </ul>
         </div>
         <div class="video-container">
             <video id="video" controls></video>
             <div class="loading" id="loading">Yükleniyor... Bekle Az</div>
+        </div>
+        <div class="telegram-banner">
+            <a href="https://t.me/macoutlowe" target="_blank">
+                <img src="telegram.png" alt="Telegram Kanalımıza Katıl">
+            </a>
         </div>
     </div>
     <script>
