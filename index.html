@@ -9,178 +9,169 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: auto; /* Kaydırmayı aktif et */
-        }
-        body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
-            background-image: url('arka.png'); /* Arka plan resmi */
-            background-size: cover;
-            background-position: center;
+            align-items: center;
+            background-color: #1a1a1a; /* Koyu arka plan rengi */
+            background-image: linear-gradient(135deg, #4caf50 25%, #1a1a1a 25%, #1a1a1a 50%, #4caf50 50%, #4caf50 75%, #1a1a1a 75%, #1a1a1a);
             font-family: Arial, sans-serif;
-            color: white; /* Yazı rengi beyaz */
-        }
-        .container {
-            display: flex;
-            flex-direction: column; /* Dikey dizilim */
-            width: 100%;
-            max-width: 800px; /* Maksimum genişlik */
-            margin-top: 20px;
-        }
-        .menu {
-            width: 100%; /* Menü genişliği */
-            background-color: rgba(0, 0, 0, 0.8); /* Menünün arka plan rengi */
-            padding: 10px;
-            position: relative; /* İçerik konumlandırması için */
-        }
-        .menu h3 {
-            text-align: center;
-            color: #ffcc00; /* Sarı renk */
-            margin: 0;
-        }
-        .menu ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .menu ul li {
-            padding: 10px;
-            border-bottom: 1px solid #fff;
-        }
-        .menu ul li a {
             color: white;
-            text-decoration: none;
-            display: block; /* Tıklanabilir alanı artır */
         }
+
         .video-container {
-            background-color: rgba(255, 255, 255, 0.8); /* Yarı saydam arka plan */
+            width: 80%;
+            max-width: 900px;
+            height: 500px;
+            background-color: rgba(0, 0, 0, 0.8); /* Daha koyu bir arka plan */
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             overflow: hidden;
-            margin-top: 20px; /* Üstten boşluk */
-            position: relative; /* İçerik konumlandırması için */
-            flex: 1; /* Video alanının esnemesi için */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px; 
         }
+
         video {
             width: 100%;
-            height: 100%; /* Videonun yüksekliğini %100 yap */
-            object-fit: cover; /* Videoyu kapsaması için */
-            border-radius: 10px 10px 0 0;
+            height: 100%;
+            border-radius: 10px;
         }
-        .loading {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 20px;
-            color: #555;
-        }
-        .viewers-count {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 18px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
+
         .telegram-banner {
-            text-align: center;
             margin-top: 20px;
-            transition: transform 0.3s; /* Geçiş efekti */
+            text-align: center;
         }
+
         .telegram-banner img {
-            width: 400px; /* Banner genişliği */
-            height: 200px; /* Banner yüksekliği */
-            cursor: pointer; /* Tıklanabilir işareti */
-            transition: transform 0.3s; /* Geçiş efekti */
+            width: 300px;
+            height: 100px;
+            cursor: pointer;
+            transition: transform 0.3s;
         }
+
         .telegram-banner:hover img {
-            transform: scale(1.1); /* Mouse ile üzerine gelindiğinde büyüme */
+            transform: scale(1.1);
+        }
+
+        .category-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10;
+            border-radius: 5px; /* Buton köşeleri yuvarlatıldı */
+            transition: background-color 0.3s;
+        }
+
+        .category-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Hover efekti eklendi */
+        }
+
+        .category-panel {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            height: 100%;
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            overflow-y: auto;
+            transition: left 0.3s ease;
+            z-index: 5;
+        }
+
+        .category-panel ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px; 
+        }
+
+        .category-panel ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #fff;
+        }
+
+        .category-panel ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .category-panel.open {
+            left: 0;
+        }
+
+        .header-title {
+            position: fixed;
+            top: 20px;
+            text-align: center;
+            width: 100%;
+            z-index: 5;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.1.5/hls.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="menu">
-            <h3>KESİNTİSİZ MAÇ İZLEME DENEYİMİ / UNINTERRUPTED MATCH WATCHING EXPERIENCE </h3>
-            <ul>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=')">BeIN Sports 1</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzIxMTM0NjIzOTg0M2RkZWRlOGZhYmM=')">BeIN Sports 1/ Yedek Link</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2OTQ2NjI0NzU2NTVmZmNiYTZiNDc=')">BeIN Sports 2</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==')">Ssports</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM4MzA2OTEzMTY2ZWY3ZjQ4YzE5YmY=')">Tabi Sports 1</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzIxNTk0NjkyMzFjOWY4MzgzYjhkZmM=')">Tabi Sports 2</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0ODk0MzA3NTQ0YWY3ODQwYmM1NWU=')">Tabi Sports 3</a></li>
-                <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2NzMwMzcwNTQwZDc3MjNlMjhiNDQ=')">Exxen Sports</a></li>
-            </ul>
-        </div>
-        <div class="video-container">
-            <video id="video" controls></video>
-            <div class="loading" id="loading">Yükleniyor... Bekle Az</div>
-        </div>
-        <div class="telegram-banner">
-            <a href="https://t.me/macoutlowe" target="_blank">
-                <img src="telegram.png" alt="Telegram Kanalımıza Katıl">
-            </a>
-        </div>
+    <div class="header-title">
+        <h1>OUTLOWE</h1>
     </div>
+    
+    <div class="category-panel" id="categoryPanel">
+        <ul>
+            <li> <button class="category-btn" onclick="toggleCategoryPanel()">Kategori</button></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=')">BeIN Sports 1</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzIxMTM0NjIzOTg0M2RkZWRlOGZhYmM=')">BeIN Sports 1/ Yedek Link</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2OTQ2NjI0NzU2NTVmZmNiYTZiNDc=')">BeIN Sports 2</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==')">Ssports</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM4MzA2OTEzMTY2ZWY3ZjQ4YzE5YmY=')">Tabi Sports 1</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzIxNTk0NjkyMzFjOWY4MzgzYjhkZmM=')">Tabi Sports 2</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0ODk0MzA3NTQ0YWY3ODQwYmM1NWU=')">Tabi Sports 3</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2NzMwMzcwNTQwZDc3MjNlMjhiNDQ=')">Exxen Sports</a></li>
+        </ul>
+    </div>
+
+    <div class="video-container">
+        <video id="video" controls></video>
+    </div>
+
+    <div class="telegram-banner">
+        <a href="https://t.me/macoutlowe" target="_blank">
+            <img src="telegram.png" alt="Telegram Kanalımıza Katıl">
+        </a>
+    </div>
+
     <script>
-        // Anlık izleyici sayısı
-        let viewers = 1; // Başlangıçta 1 kişi
-
-        // F12 ve sağ tıklamayı engelle
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-                e.preventDefault();
-            }
-        });
-
+        var categoryPanel = document.getElementById('categoryPanel');
         var video = document.getElementById('video');
-        var loading = document.getElementById('loading');
 
-        // Video bağlantısını JavaScript içinde sakla
-        var videoSrc = 'https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=';
-
-        // Anlık izleyen sayısını güncelle
-        function updateViewersCount() {
-            document.getElementById('viewersCount').innerText = `Anlık İzleyen: ${viewers}`;
+        function toggleCategoryPanel() {
+            categoryPanel.classList.toggle('open');
         }
-        updateViewersCount();
-
-        // Yükleniyor mesajını göster
-        loading.style.display = 'block';
 
         function playMatch(src) {
-            loading.style.display = 'block'; // Yükleniyor mesajını göster
-            video.src = src; // Yeni video kaynağını ayarla
-
             if (Hls.isSupported()) {
                 var hls = new Hls();
                 hls.loadSource(src);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    loading.style.display = 'none'; // Yükleniyor mesajını gizle
                     video.play();
                 });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = src;
                 video.addEventListener('loadedmetadata', function () {
-                    loading.style.display = 'none'; // Yükleniyor mesajını gizle
                     video.play();
                 });
             }
         }
-
-        // İlk video kaynağını yükle
-        playMatch(videoSrc);
     </script>
 </body>
 </html>
