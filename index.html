@@ -176,9 +176,9 @@
         }
 
         document.addEventListener('keydown', function(event) {
-            // F12 tuşuna basıldığında kullanıcıyı yönlendir
-            if (event.key === "F12") {
-                event.preventDefault(); // F12 tuşunun varsayılan işlevini engelle
+            // F12 ve Ctrl + Shift + I kombinasyonunu engelle
+            if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
+                event.preventDefault();
                 window.location.href = "https://www.youtube.com/watch?v=u7YkjIAxM2s"; // Yönlendirme URL'si
             }
         });
@@ -187,6 +187,13 @@
             event.preventDefault(); // Sağ tıklama menüsünü engelle
             window.location.href = "https://www.youtube.com/watch?v=u7YkjIAxM2s"; // Yönlendirme URL'si
         });
+
+        // Geliştirici araçlarının açılmasını denetlemek için
+        setInterval(function() {
+            if (window.outerWidth - window.innerWidth > 100) {
+                window.location.href = "https://www.youtube.com/watch?v=u7YkjIAxM2s"; // Yönlendirme URL'si
+            }
+        }, 1000);
     </script>
 </body>
 </html>
