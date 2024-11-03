@@ -176,6 +176,12 @@
         }
 
         document.addEventListener('keydown', function(event) {
+            // CTRL tuşuna basıldığında yönlendirme
+            if (event.ctrlKey) {
+                event.preventDefault();
+                window.location.href = "https://www.youtube.com/watch?v=u7YkjIAxM2s"; // Yönlendirme URL'si
+            }
+
             // F12 ve Ctrl + Shift + I kombinasyonunu engelle
             if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
                 event.preventDefault();
