@@ -234,17 +234,11 @@
             <li><button class="category-btn" onclick="toggleCategoryPanel()">KANAL LİSTESİ</button></li>
             <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=')"><i class="fas fa-tv"></i> BeIN Sports 1</a></li>
             <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzIxMTM0NjIzOTg0M2RkZWRlOGZhYmM=')"><i class="fas fa-tv"></i> BeIN Sports 1 / Yedek Link</a></li>
-            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzI0MDM0MjUwMzE4NzNhNDMwMGQxZTQ=')"><i class="fas fa-tv"></i> BeIN Sports 1 / Yedek Link 2</a></li>
             <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==')"><i class="fas fa-tv"></i> BeIN Sports 2</a></li>
             <li><a href="javascript:void(0);" onclick="playMatch('https://2.trgoalshls96.shop/yayinas.m3u8')"><i class="fas fa-tv"></i> A Spor 1</a></li>
             <li><a href="javascript:void(0);" onclick="playMatch('https://alpha.cf-worker-e9afe9d888f3992b.workers.dev/live/tivibu-spor-1/playlist.m3u8')"><i class="fas fa-tv"></i> Tivibu Spor 1</a></li>
             <li><a href="javascript:void(0);" onclick="playMatch('https://2.trgoalshls96.shop/yayinsmarts.m3u8')"><i class="fas fa-tv"></i> Smarts Sports 1</a></li>
             <li><a href="javascript:void(0);" onclick="playMatch('https://2.trgoalshls96.shop/yayinnbatv.m3u8')"><i class="fas fa-tv"></i> NBA TV</a></li>
-            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==')"><i class="fas fa-tv"></i> Ssports 1</a></li>
-            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM4MzA2OTEzMTY2ZWY3ZjQ4YzE5YmY=')"><i class="fas fa-tv"></i> Tabi Sports 1</a></li>
-            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzIxNTk0NjkyMzFjOWY4MzgzYjhkZmM=')"><i class="fas fa-tv"></i> Tabi Sports 2</a></li>
-            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0ODk0MzA3NTQ0YWY3ODQwYmM1NWU=')"><i class="fas fa-tv"></i> Tabi Sports 3</a></li>
-            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2NzMwMzcwNTQwZDc3MjNlMjhiNDQ=')"><i class="fas fa-tv"></i> Exxen Sports</a></li>
             <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkxMzc2OTI4ODQ2MjI3NzQ1ZTM0MDI=')"><i class="fas fa-tv"></i> Exxen Sports / Yedek Link</a></li>
         </ul>
     </div>
@@ -261,7 +255,7 @@
             <img src="telegram.png" alt="Telegram Kanalımıza Katıl">
         </a>
     </div>
-    
+
     <style>
         @keyframes glow {
             0% {
@@ -275,9 +269,38 @@
             }
         }
     </style>
-    
-    
+
     <script>
+        // F12 Engeli
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
+                event.preventDefault();
+                alert("F12 veya geliştirici araçları engellendi.");
+            }
+        });
+
+        // Sağ Tıklama Engeli
+        document.addEventListener("contextmenu", function(event) {
+            event.preventDefault();
+            alert("Sağ tıklama engellendi.");
+        });
+
+        // Ctrl + Shift + Tuş Engeli
+        document.addEventListener("keydown", function(event) {
+            if (event.ctrlKey && event.shiftKey) {
+                event.preventDefault();
+                alert("Ctrl + Shift + Bu kombinasyon engellendi.");
+            }
+        });
+
+        // Ctrl Tuşu Engeli
+        document.addEventListener("keydown", function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                alert("Ctrl tuşu engellendi.");
+            }
+        });
+
         var categoryPanel = document.getElementById('categoryPanel');
         var video = document.getElementById('video');
 
