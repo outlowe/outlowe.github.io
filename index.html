@@ -3,81 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site Bakımda</title>
+    <title>Outlowe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        /* Sayfa genel stili */
-        body, html {
-            height: 100%;
+        html, body {
             margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a1a1a;
+            background-image: linear-gradient(135deg, #4caf50 25%, #1a1a1a 25%, #1a1a1a 50%, #4caf50 50%, #4caf50 75%, #1a1a1a 75%, #1a1a1a);
             font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .video-container {
+            width: 80%;
+            max-width: 900px;
+            height: 500px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f2f2f2;
-            color: #333;
+            margin-top: 50px; 
         }
 
-        /* Konteynerin ortalanması ve animasyon */
-        .container {
-            text-align: center;
-            animation: fadeIn 2s ease-in-out;
+        video {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
         }
 
-        /* Başlık animasyonu ve stili */
-        h1 {
-            font-size: 40px;
-            margin-bottom: 20px;
-            animation: bounce 1s infinite;
-            color: #f39c12;
-        }
-
-        /* Mesaj metni stili */
-        .message {
-            font-size: 20px;
-            color: #666;
-        }
-
-        /* Yükleniyor (spinner) animasyonu */
-        .spinner {
-            border: 16px solid #f3f3f3; /* Gri renk dış çerçeve */
-            border-top: 16px solid #3498db; /* Mavi renk üst çerçeve */
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
+        .telegram-banner {
             margin-top: 20px;
+            text-align: center;
         }
 
-        /* Bounce animasyonu - başlık için */
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
+        .telegram-banner img {
+            width: 300px;
+            height: 100px;
+            cursor: pointer;
+            transition: transform 0.3s;
         }
 
-        /* Dönen animasyon - spinner için */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .telegram-banner:hover img {
+            transform: scale(1.1);
         }
 
-        /* FadeIn animasyonu - sayfa açıldığında içerik görünür */
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+        .category-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .category-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .category-panel {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            height: 100%;
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            overflow-y: auto;
+            transition: left 0.3s ease;
+            z-index: 5;
+        }
+
+        .category-panel ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px; 
+        }
+
+        .category-panel ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-panel ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-left: 10px;
+        }
+
+        .category-panel ul li a:hover {
+            color: #4caf50;
+        }
+
+        .category-panel.open {
+            left: 0;
+        }
+
+        .header-title {
+            position: fixed;
+            top: 20px;
+            text-align: center;
+            width: 100%;
+            z-index: 5;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.1.5/hls.min.js"></script>
 </head>
 <body>
-
-    <div class="container">
-        <h1>Bakım Modunda!</h1>
-        <p class="message">Şu anda sitemiz üzerinde iyileştirme çalışmaları yapılıyor. Lütfen biraz sabırlı olun.</p>
-        <div class="spinner"></div>
+    <div class="header-title">
+        <h1>OUTLOWE</h1>
+    </div>
+    
+    <div class="category-panel" id="categoryPanel">
+        <ul>
+            <li><button class="category-btn" onclick="toggleCategoryPanel()">KANAL LİSTESİ</button></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0NTM2OTIzMTQyMzc3MWI1OTUyODk=')"><i class="fas fa-tv"></i> BeIN Sports 1</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzIxMTM0NjIzOTg0M2RkZWRlOGZhYmM=')"><i class="fas fa-tv"></i> BeIN Sports 1 / Yedek Link</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzI0MDM0MjUwMzE4NzNhNDMwMGQxZTQ=')"><i class="fas fa-tv"></i> BeIN Sports 1 / Yedek Link 2</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==')"><i class="fas fa-tv"></i> BeIN Sports 2</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://alpha.cf-worker-e9afe9d888f3992b.workers.dev/live/tivibu-spor-1/playlist.m3u8')"><i class="fas fa-tv"></i> Tivibu Spor 1</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://2.trgoalshls96.shop/yayinsmarts.m3u8')"><i class="fas fa-tv"></i> Smarts Sports 1</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkzNjkwODI3NDlmNmE4NmY4NTBjMQ==')"><i class="fas fa-tv"></i> Ssports 1</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM4MzA2OTEzMTY2ZWY3ZjQ4YzE5YmY=')"><i class="fas fa-tv"></i> Tabi Sports 1</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzIxNTk0NjkyMzFjOWY4MzgzYjhkZmM=')"><i class="fas fa-tv"></i> Tabi Sports 2</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzE0ODk0MzA3NTQ0YWY3ODQwYmM1NWU=')"><i class="fas fa-tv"></i> Tabi Sports 3</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzM2NzMwMzcwNTQwZDc3MjNlMjhiNDQ=')"><i class="fas fa-tv"></i> Exxen Sports</a></li>
+            <li><a href="javascript:void(0);" onclick="playMatch('https://ozweb.duckdns.org/cdn/getrok/1.m3u8?v=aHR0cHM6Ly93d3cub2hhLnRvL29oYS10di9wbGF5LzkxMzc2OTI4ODQ2MjI3NzQ1ZTM0MDI=')"><i class="fas fa-tv"></i> Exxen Sports / Yedek Link</a></li>
+        </ul>
     </div>
 
+    <div class="video-container">
+        <video id="video" controls></video>
+    </div>
+
+    <div class="telegram-banner">
+        <a href="https://t.me/macoutlowe" target="_blank">
+            <img src="telegram.png" alt="Telegram Kanalımıza Katıl">
+        </a>
+    </div>
+
+    <script>
+        var categoryPanel = document.getElementById('categoryPanel');
+        var video = document.getElementById('video');
+
+        function toggleCategoryPanel() {
+            categoryPanel.classList.toggle('open');
+        }
+
+        function playMatch(src) {
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(src);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    video.play();
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = src;
+                video.addEventListener('loadedmetadata', function () {
+                    video.play();
+                });
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                window.location.href = "https://www.youtube.com/watch?v=u7YkjIAxM2s";
+            }
+            if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
+                event.preventDefault();
+                window.location.href = "https://www.youtube.com/watch?v=u7YkjIAxM2s";
+            }
+        });
+
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            window.location.href = "https://www.youtube.com/watch?v=u7YkjIAxM2s";
+        });
+
+        setInterval(function() {
+            if (window.outerWidth - window.innerWidth > 100) {
+                window.location.href = "https://www.youtube.com/watch?v=u7YkjIAxM2s";
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
