@@ -32,7 +32,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 50px; 
+            margin-top: 50px;
         }
 
         video {
@@ -80,10 +80,10 @@
         /* Kategori Paneli */
         .category-panel {
             position: fixed;
-            left: -300px; /* Başlangıçta gizli */
+            left: -900px; /* Başlangıçta gizli */
             top: 0;
             height: 100%;
-            width: 250px;
+            width: 190px;
             background-color: rgba(0, 0, 0, 0.9);
             box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
             padding: 20px;
@@ -96,7 +96,7 @@
         .category-panel ul {
             list-style-type: none;
             padding: 0;
-            margin-top: 20px; 
+            margin-top: 20px;
         }
 
         .category-panel ul li {
@@ -196,7 +196,7 @@
         @media (max-width: 768px) {
             .category-panel {
                 width: 100%; /* Panel tam genişlikte olsun */
-                left: -100%; /* Başlangıçta gizli */
+                left: -900%; /* Başlangıçta gizli */
             }
 
             .category-panel.open {
@@ -221,6 +221,17 @@
             }
         }
 
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 5px #4caf50, 0 0 10px #4caf50, 0 0 15px #4caf50, 0 0 20px #4caf50;
+            }
+            50% {
+                text-shadow: 0 0 10px #4caf50, 0 0 20px #4caf50, 0 0 30px #4caf50, 0 0 40px #4caf50;
+            }
+            100% {
+                text-shadow: 0 0 5px #4caf50, 0 0 10px #4caf50, 0 0 15px #4caf50, 0 0 20px #4caf50;
+            }
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.1.5/hls.min.js"></script>
 </head>
@@ -261,20 +272,6 @@
             <img src="telegram.png" alt="Telegram Kanalımıza Katıl">
         </a>
     </div>
-
-    <style>
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 5px #4caf50, 0 0 10px #4caf50, 0 0 15px #4caf50, 0 0 20px #4caf50;
-            }
-            50% {
-                text-shadow: 0 0 10px #4caf50, 0 0 20px #4caf50, 0 0 30px #4caf50, 0 0 40px #4caf50;
-            }
-            100% {
-                text-shadow: 0 0 5px #4caf50, 0 0 10px #4caf50, 0 0 15px #4caf50, 0 0 20px #4caf50;
-            }
-        }
-    </style>
 
     <script>
         // F12 Engeli
