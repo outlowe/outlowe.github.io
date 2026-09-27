@@ -5,6 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outlowe</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    /* Chat ve puan durumu alanı */
+.alt-panel {
+    width: 80%;
+    max-width: 900px;
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    align-items: stretch;
+}
+
+.chat-alani {
+    flex: 1;
+    min-width: 0;
+    height: 350px;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.puan-alani {
+    width: 350px;
+    height: 350px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.puan-alani iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Mobil */
+@media (max-width: 768px) {
+    .alt-panel {
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .chat-alani {
+        width: 100%;
+        height: 350px;
+    }
+
+    .puan-alani {
+        width: 100%;
+        height: 450px;
+    }
+}
     <style>
         html, body {
             margin: 0;
@@ -322,7 +372,47 @@
             }
         }
     </script>
-    <script id="cid0020000420530206332" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 250px;height: 350px;">{"handle":"outlowetv","arch":"js","styles":{"a":"003300","b":100,"c":"FFFFFF","d":"FFFFFF","k":"003300","l":"003300","m":"003300","n":"FFFFFF","p":"10","q":"003300","r":100,"surl":0,"fwtickm":1}}</script>
+    <div class="alt-panel">
+
+    <!-- Yazışma alanı -->
+    <div class="chat-alani">
+        <script 
+            id="cid0020000420530206332"
+            data-cfasync="false"
+            async
+            src="//st.chatango.com/js/gz/emb.js">
+            {
+                "handle":"outlowetv",
+                "arch":"js",
+                "styles":{
+                    "a":"003300",
+                    "b":100,
+                    "c":"FFFFFF",
+                    "d":"FFFFFF",
+                    "k":"003300",
+                    "l":"003300",
+                    "m":"003300",
+                    "n":"FFFFFF",
+                    "p":"10",
+                    "q":"003300",
+                    "r":100,
+                    "surl":0,
+                    "fwtickm":1
+                }
+            }
+        </script>
+    </div>
+
+    <!-- Puan Durumu -->
+    <div class="puan-alani">
+        <iframe
+            src="https://inattv1323.xyz/puan.html"
+            title="Süper Lig Puan Durumu">
+        </iframe>
+    </div>
+
+</div>
+
 </body>
 </html>
 
